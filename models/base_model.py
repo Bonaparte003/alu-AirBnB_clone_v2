@@ -7,16 +7,16 @@ from sqlalchemy import Column, String, DateTime
 
 Base = declarative_base()
 
+
 class BaseModel:
     """A base class for all hbnb models"""
-    id = Column(String(60), primary_key=True, nullable=False)
+    id = Column(String(60), primary_key=True, nullable=False, unique=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         if not kwargs:
-            from models import storage
             self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
@@ -29,11 +29,13 @@ class BaseModel:
             if 'created_at' not in kwargs:
                 self.created_at = datetime.utcnow()
             else:
-                self.created_at = datetime.strptime(kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                self.created_at = datetime.strptime(kwargs['created_at'],
+                                                    '%Y-%m-%dT%H:%M:%S.%f')
             if 'updated_at' not in kwargs:
                 self.updated_at = datetime.utcnow()
             else:
-                self.updated_at = datetime.strptime(kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                self.updated_at = datetime.strptime(kwargs['updated_at'],
+                                                    '%Y-%m-%dT%H:%M:%S.%f')
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -50,7 +52,8 @@ class BaseModel:
     def to_dict(self):
         """Convert instance into dict format"""
         dictionary = self.__dict__.copy()
-        dictionary.update({'__class__': (str(type(self)).split('.')[-1]).split('\'')[0]})
+        dictionary.update({'__class__': (str(type(self)).split('.')[-1]
+                                         ).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         if '_sa_instance_state' in dictionary:
