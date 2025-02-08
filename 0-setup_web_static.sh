@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 # sets up servers for deplyoment
-# update the server and install nginx
-# allow Nginx traffics
-# mkdir directories if not exists '-p'
-# create a dummy index.html
-# Create a linked list
-# Change the owner to limit the sites nginx can server
 sudo apt-get update
 sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
