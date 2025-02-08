@@ -1,4 +1,5 @@
-mport re
+#!/usr/bin/python3
+import re
 from time import strftime
 from fabric.context_managers import cd
 from fabric.api import env, put, sudo, local
