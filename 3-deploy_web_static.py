@@ -6,7 +6,7 @@ deploys the web static
 from fabric.api import env, local, put, run
 from datetime import datetime
 from os.path import exists, isdir
-env.hosts = ['54.175.253.142', '34.239.255.28']
+env.hosts = ['34.228.159.176', '18.234.150.129']
 
 
 def do_pack():
