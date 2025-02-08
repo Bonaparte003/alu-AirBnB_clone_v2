@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # sets up servers for deplyoment
+# shellcheck disable=SC2230
 sudo apt-get update
 sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
