@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-deploys the web static
+deploys the hbnb
+web stati
 """
 
 from fabric.api import env, local, put, run
