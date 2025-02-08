@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# sets up servers for deplyoment
+# sets up servers for deployment
 sudo apt-get update
 sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
