@@ -1,14 +1,42 @@
 #!/usr/bin/env bash
-# Writing a script that sets up your web servers for the deployment of web_static
+# sets up servers for deplyoment
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
 
-apt-get update
-apt-get -y install nginx
+sudo mkdir -p /data/
+sudo mkdir -p /data/web_static/
+sudo mkdir -p /data/web_static/releases/
+sudo mkdir -p /data/web_static/shared/
+sudo mkdir -p /data/web_static/releases/test/
+sudo touch /data/web_static/releases/test/index.html
+sudo echo "<html>
+  <head>
+  </head>
+  <body>
+    Bonaparte UTERAMAHORO
+  </body>
+</html>" > /data/web_static/releases/test/index.html
 
-mkdir -p /data/web_static/releases/test/
-mkdir -p /data/web_static/shared/
+sudo ln -s -f /data/web_static/releases/test/ /data/web_static/current
 
-echo "<h1>Bonaparte</h1>" > /data/web_static/releases/test/index.html
-ln -sf /data/web_static/releases/test/ /data/web_static/current
-chown -R ubuntu:ubuntu /data/
-sudo sed -i '/listen 80 default_server/a location /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-enabled/default
+sudo chown -R ubuntu:ubuntu /data/
+
+sudo echo '
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/Forecast;
+	location /hbnb_static {
+		alias /data/web_static/current/;
+
+}
+        index index.html index.htm 404.html index.nginx-debian.html;
+        server_name _;
+        add_header X-Served-By $HOSTNAME;
+        error_page 404 /5-design_a_beautiful_404_page.html;
+}
+
+' > /etc/nginx/sites-enabled/default
+
 sudo service nginx restart
