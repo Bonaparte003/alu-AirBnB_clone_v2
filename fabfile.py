@@ -22,7 +22,7 @@ def do_pack():
         return None
 
 
-def do_deploy(archive_path):
+def do_deploy(archive_path, dry_run=False):
     """distributes an archive to the web servers"""
     if exists(archive_path) is False:
         return False
@@ -43,7 +43,7 @@ def do_deploy(archive_path):
         return False
 
 
-def deploy():
+def deploy(dry_run=False):
     """creates and distribte the servers"""
     archive_path = do_pack()
     if archive_path is None:
