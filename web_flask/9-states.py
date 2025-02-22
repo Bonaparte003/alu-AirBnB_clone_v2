@@ -6,6 +6,8 @@ Routes:
     /states/<id>: HTML page displaying the given state with <id>.
 """
 from models import storage
+from models.state import State
+import os
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -20,16 +22,16 @@ def states():
     return render_template("9-states.html", states=states)  # Pass as 'states'
 
 
-@app.route("/states/<id>", strict_slashes=False)
+@app.route('/states/<id>', strict_slashes=False)
 def states_id(id):
-    """Displays an HTML page with info about <id>, if it exists."""
-    states = storage.all("State")  # Fetch fresh data
-    state = None
-    for s in states.values():
-        if s.id == id:
-            state = s
-            break  # Found the state, no need to keep looping
-    return render_template("9-states.html", state=state)  # Pass as 'state'
+    """ Displays a HTML page with a list of City objects linked to the State """
+    state = storage.all(State).get('State.' + id)
+    if state:
+        cities = state.cities if os.getenv('HBNB_TYPE_STORAGE') == 'db' else state.cities
+        cities = sorted(cities, key=lambda city: city.name)
+        return render_template('state_cities.html', state=state, cities=cities)
+    else:
+        return render_template('not_found.html')
 
 
 @app.teardown_appcontext
